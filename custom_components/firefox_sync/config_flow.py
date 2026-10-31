@@ -88,6 +88,17 @@ def _form_schema() -> vol.Schema:
     return vol.Schema(fields)
 
 
+def _has_credentials(url: str) -> bool:
+    """Whether the URL carries a user or password (https://user:pass@host): refused, they would end
+    up in diagnostics, errors and the device's link; the integration authenticates with the
+    metrics token or a client certificate, never with a password in the URL."""
+    try:
+        parsed = URL(url.strip())
+    except ValueError:
+        return False
+    return bool(parsed.user or parsed.password)
+
+
 def _normalize_url(url: str, *, websocket: bool = False) -> str | None:
     """The base URL without a trailing slash, None when it is not http(s) (or ws(s))."""
     try:
@@ -158,7 +169,9 @@ class FirefoxSyncConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
         data: dict[str, Any] = {}
         if raw := (user_input.get(CONF_URL) or "").strip():
-            if (url := _normalize_url(raw)) is None:
+            if _has_credentials(raw):
+                errors[CONF_URL] = "url_credentials"
+            elif (url := _normalize_url(raw)) is None:
                 errors[CONF_URL] = "invalid_url"
             else:
                 data[CONF_URL] = url
@@ -168,7 +181,9 @@ class FirefoxSyncConfigFlow(ConfigFlow, domain=DOMAIN):
                 data[CONF_METRICS_TOKEN] = token
         for key in SERVICE_URLS:
             if raw := (user_input.get(key) or "").strip():
-                if (url := _normalize_url(raw, websocket=key == CONF_PAIRING_URL)) is None:
+                if _has_credentials(raw):
+                    errors[key] = "url_credentials"
+                elif (url := _normalize_url(raw, websocket=key == CONF_PAIRING_URL)) is None:
                     errors[key] = "invalid_url"
                 else:
                     data[key] = url

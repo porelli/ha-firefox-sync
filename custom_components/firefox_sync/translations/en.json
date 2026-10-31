@@ -105,7 +105,8 @@
       "sync_url_required": "The accounts' URLs need the Sync server's URL too.",
       "no_source": "Give the admin UI's URL and token, or the Sync server's URL, or both.",
       "service_down": "{service} does not answer at this URL: {error}",
-      "unknown": "Unexpected error, see the logs."
+      "unknown": "Unexpected error, see the logs.",
+      "url_credentials": "No user or password in the URL: the admin UI is reached with its metrics token, a server behind access control with a client certificate."
     },
     "abort": {
       "already_configured": "This admin UI is already configured.",

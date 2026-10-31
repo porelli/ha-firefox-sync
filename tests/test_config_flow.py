@@ -94,6 +94,9 @@ async def test_user_flow_both(hass: HomeAssistant, aioclient_mock: AiohttpClient
         ({CONF_AUTH_URL: AUTH}, {CONF_SYNC_URL: "sync_url_required"}),
         ({CONF_SYNC_URL: "sync.example.com"}, {CONF_SYNC_URL: "invalid_url"}),
         ({CONF_SYNC_URL: SYNC, CONF_PAIRING_URL: "pairing.example.com"}, {CONF_PAIRING_URL: "invalid_url"}),
+        ({CONF_URL: "http://a:s@ffs-admin.local:8090", CONF_METRICS_TOKEN: TOKEN}, {CONF_URL: "url_credentials"}),
+        ({CONF_SYNC_URL: "https://user@sync.example.com"}, {CONF_SYNC_URL: "url_credentials"}),
+        ({CONF_SYNC_URL: SYNC, CONF_AUTH_URL: "https://u:p@api.example.com"}, {CONF_AUTH_URL: "url_credentials"}),
     ],
 )
 async def test_user_flow_form_errors(hass: HomeAssistant, user_input: dict, errors: dict) -> None:
