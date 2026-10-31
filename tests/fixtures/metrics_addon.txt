@@ -1,0 +1,70 @@
+# HELP ffs_sync_accounts Accounts using this Sync server
+# TYPE ffs_sync_accounts gauge
+ffs_sync_accounts 1
+# HELP ffs_sync_max_users Maximum accounts (SYNC_MAX_USERS)
+# TYPE ffs_sync_max_users gauge
+ffs_sync_max_users 1
+# HELP ffs_sync_near_max_users 1 when 90% of max users or more are taken
+# TYPE ffs_sync_near_max_users gauge
+ffs_sync_near_max_users 1
+# HELP ffs_sync_full 1 when every place of max users is taken: new accounts are refused
+# TYPE ffs_sync_full gauge
+ffs_sync_full 1
+# HELP ffs_sync_stored_items Items stored by all accounts
+# TYPE ffs_sync_stored_items gauge
+ffs_sync_stored_items 6
+# HELP ffs_sync_stored_bytes Bytes stored by all accounts
+# TYPE ffs_sync_stored_bytes gauge
+ffs_sync_stored_bytes 122
+# HELP ffs_up Whether a component answers its health check
+# TYPE ffs_up gauge
+ffs_up{component="Admin UI"} 1
+ffs_up{component="Sync server"} 1
+ffs_up{component="Tokenserver database"} 1
+ffs_up{component="Storage database"} 1
+ffs_up{component="Admin UI database"} 1
+ffs_up{component="Public Sync URL"} 0
+ffs_up{component="Sign-in keys (FXA_OAUTH_SERVER_URL)"} 1
+# HELP ffs_database_bytes Size of a database
+# TYPE ffs_database_bytes gauge
+ffs_database_bytes{database="Admin UI"} 163840
+ffs_database_bytes{database="Sync storage"} 147456
+ffs_database_bytes{database="Tokenserver"} 163840
+# HELP ffs_statsd_silent 1 when the Sync server is up and Sync data changed more than 10 minutes after its last metrics
+# TYPE ffs_statsd_silent gauge
+ffs_statsd_silent 0
+# HELP ffs_backup_age_seconds Seconds since the last good backup finished
+# TYPE ffs_backup_age_seconds gauge
+ffs_backup_age_seconds{scope="sync"} 58
+# HELP ffs_backup_last_ok Whether the last backup worked
+# TYPE ffs_backup_last_ok gauge
+ffs_backup_last_ok{scope="sync"} 1
+# HELP ffs_sync_error_ratio Share of the Sync requests that failed in the last 15 minutes
+# TYPE ffs_sync_error_ratio gauge
+ffs_sync_error_ratio 0
+# HELP ffs_sync_error_spike 1 during a spike of errors (ADMIN_ERROR_RATE_PERCENT)
+# TYPE ffs_sync_error_spike gauge
+ffs_sync_error_spike 0
+# HELP ffs_sync_errors_total Errors of the Sync server by kind since the admin UI started (the tokens refused: ffs_statsd_total of syncstorage_token_verification minus syncstorage_token_creation)
+# TYPE ffs_sync_errors_total counter
+# HELP ffs_statsd_total statsd metrics of the Sync server (count of events) since the admin UI started
+# TYPE ffs_statsd_total counter
+ffs_statsd_total{name="syncstorage_request_duration"} 15
+ffs_statsd_total{name="syncstorage_request_get_bso"} 2
+ffs_statsd_total{name="syncstorage_request_get_collection"} 2
+ffs_statsd_total{name="syncstorage_request_get_collections"} 3
+ffs_statsd_total{name="syncstorage_request_post_collection"} 1
+ffs_statsd_total{name="syncstorage_request_put_bso"} 1
+ffs_statsd_total{name="syncstorage_token_creation"} 4
+ffs_statsd_total{name="syncstorage_token_verification"} 5
+ffs_statsd_total{name="syncstorage_tokenserver_storage_add_user_to_node"} 2
+ffs_statsd_total{name="syncstorage_tokenserver_storage_allocate_user"} 1
+ffs_statsd_total{name="syncstorage_tokenserver_storage_get_best_node"} 2
+ffs_statsd_total{name="syncstorage_tokenserver_storage_get_pool"} 10
+ffs_statsd_total{name="syncstorage_tokenserver_storage_get_users"} 4
+ffs_statsd_total{name="syncstorage_tokenserver_storage_post_user"} 1
+# HELP ffs_statsd_ms_total Sum of the timings of the Sync server since the admin UI started
+# TYPE ffs_statsd_ms_total counter
+ffs_statsd_ms_total{name="syncstorage_request_duration"} 30
+ffs_statsd_ms_total{name="syncstorage_token_verification"} 7
+ffs_statsd_ms_total{name="syncstorage_tokenserver_storage_allocate_user"} 1

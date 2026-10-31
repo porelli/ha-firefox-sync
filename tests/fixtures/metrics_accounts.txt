@@ -1,0 +1,12 @@
+# HELP ffs_accounts Accounts of the self-hosted accounts service
+# TYPE ffs_accounts gauge
+ffs_accounts 2
+# HELP ffs_accounts_max Maximum accounts of the self-hosted accounts service (FXA_MAX_ACCOUNTS)
+# TYPE ffs_accounts_max gauge
+ffs_accounts_max 10
+# HELP ffs_accounts_near_max 1 when 90% of FXA_MAX_ACCOUNTS or more are created
+# TYPE ffs_accounts_near_max gauge
+ffs_accounts_near_max 0
+# HELP ffs_accounts_full 1 when FXA_MAX_ACCOUNTS accounts are created: sign-ups are refused
+# TYPE ffs_accounts_full gauge
+ffs_accounts_full 0

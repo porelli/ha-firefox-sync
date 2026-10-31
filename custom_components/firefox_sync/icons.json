@@ -1,0 +1,17 @@
+{
+  "entity": {
+    "sensor": {
+      "sync_accounts": { "default": "mdi:account-multiple" },
+      "sync_max_users": { "default": "mdi:account-lock" },
+      "sync_stored_items": { "default": "mdi:bookmark-multiple" },
+      "sync_stored_bytes": { "default": "mdi:database" },
+      "database_bytes": { "default": "mdi:database" },
+      "backup_age": { "default": "mdi:backup-restore" },
+      "sync_error_ratio": { "default": "mdi:alert-circle-outline" },
+      "cert_expiry": { "default": "mdi:certificate" },
+      "accounts": { "default": "mdi:account-multiple" },
+      "accounts_max": { "default": "mdi:account-lock" },
+      "notify_failures": { "default": "mdi:bell-alert" }
+    }
+  }
+}

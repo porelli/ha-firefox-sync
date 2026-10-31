@@ -1,0 +1,195 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "title": "Firefox Sync",
+        "description": "The admin UI's metrics (every entity), the public URLs of the services (their health and versions, no admin UI needed), or both.",
+        "data": {
+          "url": "Admin UI URL",
+          "metrics_token": "Metrics token",
+          "sync_url": "Sync server URL",
+          "auth_url": "Accounts API URL",
+          "content_url": "Accounts pages URL",
+          "profile_url": "Profile server URL",
+          "pairing_url": "Pairing server URL"
+        },
+        "data_description": {
+          "url": "Where Home Assistant reaches the admin UI, for example http://192.168.1.10:8090. Empty: no admin UI, the URLs below only.",
+          "metrics_token": "ADMIN_METRICS_TOKEN of the stack's .env (Helm: admin.metrics.token).",
+          "sync_url": "The public URL of the Sync server (SYNC_PUBLIC_URL), for its health and version. Required with any URL below.",
+          "auth_url": "Self-hosted accounts: FXA_AUTH_URL.",
+          "content_url": "Self-hosted accounts: FXA_CONTENT_URL.",
+          "profile_url": "Self-hosted accounts: FXA_PROFILE_URL.",
+          "pairing_url": "Your own pairing server: FXA_PAIRING_URL (wss://...)."
+        },
+        "sections": {
+          "connection": {
+            "name": "Connection",
+            "description": "For every URL above: TLS verification, a custom CA, a client certificate (the client certificates of firefox-sync's docs/access-control.md). Each certificate and key is PEM text, pasted, or the path of a file Home Assistant can read.",
+            "data": {
+              "verify_ssl": "Verify TLS certificates",
+              "ca_cert": "Custom CA (PEM)",
+              "client_cert": "Client certificate (PEM)",
+              "client_key": "Client key (PEM)"
+            },
+            "data_description": {
+              "verify_ssl": "Turn off only for a test setup: without it anybody between Home Assistant and the stack can read the metrics token.",
+              "ca_cert": "The CA of a private certificate, such as the stack's own (Caddy's internal CA, step-ca...).",
+              "client_cert": "With client certificates in front of the stack: the certificate Home Assistant presents.",
+              "client_key": "Its private key, not encrypted."
+            }
+          }
+        }
+      },
+      "hassio_confirm": {
+        "title": "Firefox Sync add-on",
+        "description": "Add the metrics of the admin UI of the {addon} add-on?"
+      },
+      "reauth_confirm": {
+        "title": "New metrics token",
+        "description": "The admin UI at {url} refused the metrics token.",
+        "data": {
+          "metrics_token": "Metrics token"
+        },
+        "data_description": {
+          "metrics_token": "ADMIN_METRICS_TOKEN of the stack's .env (Helm: admin.metrics.token)."
+        }
+      },
+      "reconfigure": {
+        "title": "Firefox Sync",
+        "data": {
+          "url": "Admin UI URL",
+          "metrics_token": "Metrics token",
+          "sync_url": "Sync server URL",
+          "auth_url": "Accounts API URL",
+          "content_url": "Accounts pages URL",
+          "profile_url": "Profile server URL",
+          "pairing_url": "Pairing server URL"
+        },
+        "data_description": {
+          "url": "Where Home Assistant reaches the admin UI, for example http://192.168.1.10:8090. Empty: no admin UI, the URLs below only.",
+          "metrics_token": "ADMIN_METRICS_TOKEN of the stack's .env (Helm: admin.metrics.token).",
+          "sync_url": "The public URL of the Sync server (SYNC_PUBLIC_URL), for its health and version. Required with any URL below.",
+          "auth_url": "Self-hosted accounts: FXA_AUTH_URL.",
+          "content_url": "Self-hosted accounts: FXA_CONTENT_URL.",
+          "profile_url": "Self-hosted accounts: FXA_PROFILE_URL.",
+          "pairing_url": "Your own pairing server: FXA_PAIRING_URL (wss://...)."
+        },
+        "sections": {
+          "connection": {
+            "name": "Connection",
+            "description": "For every URL above: TLS verification, a custom CA, a client certificate (the client certificates of firefox-sync's docs/access-control.md). Each certificate and key is PEM text, pasted, or the path of a file Home Assistant can read.",
+            "data": {
+              "verify_ssl": "Verify TLS certificates",
+              "ca_cert": "Custom CA (PEM)",
+              "client_cert": "Client certificate (PEM)",
+              "client_key": "Client key (PEM)"
+            },
+            "data_description": {
+              "verify_ssl": "Turn off only for a test setup: without it anybody between Home Assistant and the stack can read the metrics token.",
+              "ca_cert": "The CA of a private certificate, such as the stack's own (Caddy's internal CA, step-ca...).",
+              "client_cert": "With client certificates in front of the stack: the certificate Home Assistant presents.",
+              "client_key": "Its private key, not encrypted."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot read the metrics of the admin UI: {error}",
+      "invalid_auth": "The admin UI refused the token, or its metrics are off (ADMIN_METRICS_TOKEN empty).",
+      "invalid_url": "Not an http or https URL (the pairing server: ws or wss too).",
+      "invalid_tls": "The connection options do not load: {error}",
+      "token_required": "The admin UI's metrics need its token.",
+      "sync_url_required": "The accounts' URLs need the Sync server's URL too.",
+      "no_source": "Give the admin UI's URL and token, or the Sync server's URL, or both.",
+      "service_down": "{service} does not answer at this URL: {error}",
+      "unknown": "Unexpected error, see the logs."
+    },
+    "abort": {
+      "already_configured": "This admin UI is already configured.",
+      "invalid_discovery_info": "The add-on sent an incomplete discovery."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "sync_accounts": {
+        "name": "Sync accounts"
+      },
+      "sync_max_users": {
+        "name": "Sync max users"
+      },
+      "sync_stored_items": {
+        "name": "Stored items"
+      },
+      "sync_stored_bytes": {
+        "name": "Stored data"
+      },
+      "database_bytes": {
+        "name": "Database {database}"
+      },
+      "backup_age": {
+        "name": "Last good backup ({scope})"
+      },
+      "sync_error_ratio": {
+        "name": "Sync error rate"
+      },
+      "cert_expiry": {
+        "name": "Certificate expiry {host}"
+      },
+      "accounts": {
+        "name": "Accounts"
+      },
+      "accounts_max": {
+        "name": "Accounts limit"
+      },
+      "notify_failures": {
+        "name": "Failed alerts {destination}"
+      },
+      "version": {
+        "name": "{component} version"
+      }
+    },
+    "binary_sensor": {
+      "component_up": {
+        "name": "{component}"
+      },
+      "sync_near_max_users": {
+        "name": "Sync near max users"
+      },
+      "sync_full": {
+        "name": "Sync full"
+      },
+      "accounts_near_max": {
+        "name": "Accounts near limit"
+      },
+      "accounts_full": {
+        "name": "Accounts full"
+      },
+      "backup_failed": {
+        "name": "Backup failed ({scope})"
+      },
+      "sync_error_spike": {
+        "name": "Sync error spike"
+      },
+      "notify_failing": {
+        "name": "Alerts failing {destination}"
+      },
+      "alert_email_failing": {
+        "name": "Alert emails failing"
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_auth": {
+      "message": "The admin UI refused the metrics token."
+    },
+    "cannot_connect": {
+      "message": "Cannot read the metrics of the admin UI: {error}"
+    },
+    "tls_config": {
+      "message": "The connection options of the entry do not load: {error}"
+    }
+  }
+}
