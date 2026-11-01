@@ -1,0 +1,8 @@
+# setup-uv publishes no major tag (v10), only full versions: Dependabot keeps it, and the
+# other actions, current
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

@@ -27,7 +27,7 @@ jobs:
           echo "tag ${TAG}, manifest ${manifest}, pyproject ${project}"
           [ "${TAG}" = "v${manifest}" ] || { echo "::error::tag ${TAG} is not v${manifest} (manifest.json)"; exit 1; }
           [ "${project}" = "${manifest}" ] || { echo "::error::pyproject.toml has ${project}, manifest.json ${manifest}"; exit 1; }
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.3
       - run: uv venv -p 3.14 && uv pip install pytest-homeassistant-custom-component ruff
       - run: .venv/bin/ruff check . && .venv/bin/ruff format --check .
       - run: .venv/bin/pytest
