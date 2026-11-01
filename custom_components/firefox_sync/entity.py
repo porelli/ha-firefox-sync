@@ -27,7 +27,7 @@ class FirefoxSyncEntityDescription(EntityDescription):
 
 
 def device_info(entry: FirefoxSyncConfigEntry) -> DeviceInfo:
-    """One device (a service) per admin UI."""
+    """One device (a service) per entry: its admin UI, or its Sync server when it has only the public URLs."""
     if slug := entry.data.get(CONF_ADDON_SLUG):
         # the add-on's ingress panel, where its admin UI is
         url = f"homeassistant://hassio/ingress/{slug}"
@@ -40,7 +40,7 @@ def device_info(entry: FirefoxSyncConfigEntry) -> DeviceInfo:
         identifiers={(DOMAIN, entry.entry_id)},
         name=entry.title,
         manufacturer="firefox-sync",
-        model="Firefox Sync admin UI",
+        model="Firefox Sync admin UI" if CONF_URL in entry.data else "Firefox Sync server",
         entry_type=DeviceEntryType.SERVICE,
         configuration_url=url,
         sw_version=version,

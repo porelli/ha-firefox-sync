@@ -107,6 +107,7 @@ async def test_entities(
     assert len(devices) == 1
     assert devices[0].entry_type is dr.DeviceEntryType.SERVICE
     assert devices[0].configuration_url == URL
+    assert devices[0].model == "Firefox Sync admin UI"
     entities = er.async_entries_for_config_entry(registry, mock_entry.entry_id)
     assert {e.device_id for e in entities} == {devices[0].id}
 
@@ -274,6 +275,8 @@ async def test_urls_only(
     # no deprecated helper of Home Assistant (its frame reports are logged, not raised)
     assert "Detected that custom integration" not in caplog.text
     assert device.configuration_url == SYNC
+    # no admin UI in this entry: the device is the Sync server (the public URLs)
+    assert device.model == "Firefox Sync server"
 
     # the Sync server goes down: off, its database unknown; not unavailable
     aioclient_mock.clear_requests()
