@@ -109,8 +109,11 @@
       "url_credentials": "No user or password in the URL: the admin UI is reached with its metrics token, a server behind access control with a client certificate."
     },
     "abort": {
-      "already_configured": "This admin UI is already configured.",
-      "invalid_discovery_info": "The add-on sent an incomplete discovery."
+      "already_configured": "This admin UI or Sync server is already configured.",
+      "already_in_progress": "This Firefox Sync add-on is already being set up.",
+      "invalid_discovery_info": "The add-on sent an incomplete discovery.",
+      "reauth_successful": "The new metrics token works: the entry is loaded again.",
+      "reconfigure_successful": "The entry is updated and loaded again."
     }
   },
   "entity": {
