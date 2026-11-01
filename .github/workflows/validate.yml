@@ -4,20 +4,26 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: "0 0 * * 1"
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions: {}
 
 jobs:
   hassfest:
     name: hassfest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: home-assistant/actions/hassfest@master
 
   hacs:
     name: HACS
     runs-on: ubuntu-latest
     steps:
+      # every check, none ignored: the catalog review accepts no ignore
       - uses: hacs/action@main
         with:
           category: integration
@@ -26,8 +32,10 @@ jobs:
     name: Tests and lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v10
       - run: uv venv -p 3.14 && uv pip install pytest-homeassistant-custom-component ruff
       - run: .venv/bin/ruff check . && .venv/bin/ruff format --check .
       - run: .venv/bin/pytest

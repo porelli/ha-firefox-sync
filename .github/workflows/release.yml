@@ -1,0 +1,60 @@
+name: Release
+
+# Push a tag vX.Y.Z (the version of custom_components/firefox_sync/manifest.json): the checks
+# run, then a GitHub release is published for it. HACS and the Marketplace install releases,
+# not tags.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions: {}
+
+jobs:
+  check:
+    name: Tag, versions and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: The tag is v<manifest version>, and pyproject says the same
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          manifest=$(jq -r .version custom_components/firefox_sync/manifest.json)
+          project=$(sed -n 's/^version = "\(.*\)"/\1/p' pyproject.toml)
+          echo "tag ${TAG}, manifest ${manifest}, pyproject ${project}"
+          [ "${TAG}" = "v${manifest}" ] || { echo "::error::tag ${TAG} is not v${manifest} (manifest.json)"; exit 1; }
+          [ "${project}" = "${manifest}" ] || { echo "::error::pyproject.toml has ${project}, manifest.json ${manifest}"; exit 1; }
+      - uses: astral-sh/setup-uv@v10
+      - run: uv venv -p 3.14 && uv pip install pytest-homeassistant-custom-component ruff
+      - run: .venv/bin/ruff check . && .venv/bin/ruff format --check .
+      - run: .venv/bin/pytest
+
+  hassfest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: home-assistant/actions/hassfest@master
+
+  release:
+    name: GitHub release
+    needs: [check, hassfest]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      # gh only (no third-party action in the job that holds a write token); the notes:
+      # GitHub's from the commits since the last release, edit them on GitHub after
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          prerelease=()
+          # 1.2.0b1, 1.2.0rc1: a pre-release (only users who turn pre-releases on get it)
+          case "${TAG#v}" in *[!0-9.]*) prerelease=(--prerelease) ;; esac
+          gh release create "${TAG}" --repo "${GITHUB_REPOSITORY}" --verify-tag --generate-notes --title "${TAG}" "${prerelease[@]}"

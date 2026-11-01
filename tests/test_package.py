@@ -51,7 +51,8 @@ def test_manifest() -> None:
     keys = list(MANIFEST)
     assert keys[:2] == ["domain", "name"]
     assert keys[2:] == sorted(keys[2:])
-    assert re.fullmatch(r"\d+\.\d+\.\d+", MANIFEST["version"])
+    # X.Y.Z, or a pre-release X.Y.ZbN / X.Y.ZrcN (the release workflow marks those)
+    assert re.fullmatch(r"\d+\.\d+\.\d+((a|b|rc)\d+)?", MANIFEST["version"])
     assert 1 <= len(MANIFEST["categories"]) <= 3
 
 
