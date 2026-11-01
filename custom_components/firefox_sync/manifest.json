@@ -1,6 +1,7 @@
 {
   "domain": "firefox_sync",
   "name": "Firefox Sync",
+  "categories": ["computers_network.monitoring"],
   "codeowners": ["@porelli"],
   "config_flow": true,
   "dependencies": [],
