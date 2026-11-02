@@ -1,6 +1,6 @@
 [project]
 name = "ha-firefox-sync"
-version = "0.1.0"
+version = "0.1.1"
 description = "Home Assistant integration for the firefox-sync admin UI and the health of a Firefox Sync stack"
 requires-python = ">=3.13"
 
