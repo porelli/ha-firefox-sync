@@ -71,6 +71,13 @@ def test_brand_images() -> None:
     for name in ("logo.png", "dark_logo.png"):
         if name in sizes:
             assert 128 <= min(sizes[name]) <= 256, name
+    for path in brand.glob("*.png"):
+        image = Image.open(path)
+        assert image.mode == "RGBA", path.name
+        # trimmed: the subject reaches every edge, no transparent border
+        assert image.getchannel("A").getbbox() == (0, 0, *image.size), path.name
+        # anti-aliased edges, not a handful of flat colors
+        assert len(image.getcolors(1 << 24)) > 16, path.name
 
 
 def test_no_strings_json() -> None:
