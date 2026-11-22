@@ -147,6 +147,12 @@ uv venv -p 3.14 && uv pip install pytest-homeassistant-custom-component ruff
 CI (`.github/workflows/validate.yml`): hassfest, the HACS action (category integration,
 nothing ignored), the tests and ruff, on every push, pull request, and every night.
 
+Dependabot (`.github/dependabot.yml`) updates the actions weekly. Its pull requests are merged by
+GitHub's auto-merge (`.github/workflows/dependabot-automerge.yml`, squash, majors included) once the
+checks a ruleset of `main` requires pass: HACS, Tests and lint, hassfest. Repository admins bypass
+the ruleset, so a direct push to `main` still works. To stop it: disable that workflow, or turn off
+*Allow auto-merge* in the settings.
+
 ## Releases
 
 HACS and the Marketplace install GitHub releases (a tag alone is not enough; without any
